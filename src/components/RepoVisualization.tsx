@@ -5,7 +5,7 @@ interface File {
   filename: string;
   filetype: string;
   staged: boolean;
-  subfiles?: File[];
+  files?: File[];
 }
 
 interface RepoState {
@@ -18,15 +18,13 @@ interface RepoState {
   }[];
   filetrees: {
     branch: string;
-    filetree: File[];
+    files: File[];
   }[];
 }
 
 interface RepoVisualizationProps {
   repoState: RepoState;
 }
-
-let test = { subdirs: [{ directory_name: "test", staged: false, files: [{ filename: "testfile", staged: false }] }, { directory_name: "orang", staged: false, files: [{ filename: "testfile", staged: false }] }] }
 
 export default function RepoVisualization({
   repoState,
@@ -40,7 +38,7 @@ export default function RepoVisualization({
       </h3>
 
       <div className="mb-6">
-        <GitDropdown filetree={test} repoState={repoState} />
+        <GitDropdown repoState={repoState} />
       </div>
 
       <div>

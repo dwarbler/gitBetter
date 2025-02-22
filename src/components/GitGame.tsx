@@ -18,12 +18,12 @@ export default function GitGame() {
     filetrees: [
       {
         branch: "main",
-        filetree: [
+        files: [
           {
             filename: "src",
             filetype: "dir",
             staged: false,
-            subfiles: [
+            files: [
               {
                 filename: "app.tsx",
                 filetype: "file",

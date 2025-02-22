@@ -37,7 +37,7 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
   const [history, setHistory] = useState<string[]>([]);
   const terminalRef = useRef<HTMLDivElement>(null);
 
-  const validateCommand = (input: string): boolean | string => {
+  const validateCommand = (input: string): string => {
     const [cmd, ...args] = input.split(" ");
     if (cmd != "git" || args.length == 0) {
       return `${input} is not a valid git command.`;
@@ -73,22 +73,20 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
         "init",
       ].includes(args[0])
     ) {
-      return true;
+      return input;
     }
 
-    return false;
+    return `${input} is not a valid git command.`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      const valid = validateCommand(input.trim());
-      if (valid) {
+      const message = validateCommand(input.trim());
+      if (message == input.trim()) {
         onCommand(input.trim());
-        setHistory((prev) => [...prev, `$ ${input}`]);
-      } else {
-        setHistory((prev) => [...prev, `$ ${input} is not a git command.`]);
       }
+      setHistory((prev) => [...prev, message]);
       setInput("");
     }
   };

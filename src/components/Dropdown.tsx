@@ -38,9 +38,9 @@ export default function GitDropdown({ filetree }: FileTree) {
             <div className="flex items-center justify-between space-x-4 px-4">
               <div className="flex items-center justify-start space-x-4 p-0">
                 <Folder />
-                <h4 className="text-sm font-semibold">
+                <span className={`text-md ${dir.staged ? "" : "text-yellow-300"}`}>
                   {dir.directory_name}
-                </h4>
+                </span>
               </div>
               <CollapsibleTrigger asChild>
                 <Button variant="ghost" size="sm">
@@ -51,7 +51,7 @@ export default function GitDropdown({ filetree }: FileTree) {
             </div>
             <CollapsibleContent>
               {dir.files.map((file) => (
-                <div className="flex items-center justify-start space-x-4 px-4">
+                <div className="flex text-md items-center justify-start space-x-4 px-4">
                   <span>{'\t'}</span>
                   {<File />}
                   <span>{file.filename}</span>

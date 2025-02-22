@@ -15,6 +15,8 @@ interface RepoVisualizationProps {
   repoState: RepoState;
 }
 
+let test = { subdirs: [{ directory_name: "test", staged: false, files: [{ filename: "testfile", staged: false }] }] }
+
 export default function RepoVisualization({
   repoState,
 }: RepoVisualizationProps) {
@@ -27,7 +29,7 @@ export default function RepoVisualization({
       </h3>
 
       <div className="mb-6">
-        <GitDropdown />
+        <GitDropdown filetree={test} />
       </div>
 
       <div>

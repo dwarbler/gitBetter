@@ -15,6 +15,25 @@ export default function GitGame() {
         branch: "main",
       },
     ],
+    filetrees: [
+      {
+        branch: "main",
+        filetree: [
+          {
+            filename: "src",
+            filetype: "dir",
+            staged: false,
+            subfiles: [
+              {
+                filename: "app.tsx",
+                filetype: "file",
+                staged: false,
+              }
+            ]
+          },
+        ]
+      },
+    ]
   })
 
   const [challenge, setChallenge] = useState({
@@ -28,7 +47,10 @@ export default function GitGame() {
 
     switch (cmd) {
       case "git":
-        if (args[0] === "branch" && args[1]) {
+        if (args[0] == "init") {
+          const newBranch = "main"
+
+        } else if (args[0] === "branch" && args[1]) {
           const newBranch = args[1]
           if (!repoState.branches.includes(newBranch)) {
             setRepoState((prev) => ({

@@ -1,6 +1,13 @@
 import { useState } from "react";
 import GitDropdown from "./Dropdown";
 
+interface File {
+  filename: string;
+  filetype: string;
+  staged: boolean;
+  subfiles?: File[];
+}
+
 interface RepoState {
   branches: string[];
   currentBranch: string;
@@ -8,6 +15,10 @@ interface RepoState {
     id: string;
     message: string;
     branch: string;
+  }[];
+  filetrees: {
+    branch: string;
+    filetree: File[];
   }[];
 }
 

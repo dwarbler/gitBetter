@@ -15,7 +15,7 @@ interface RepoVisualizationProps {
   repoState: RepoState;
 }
 
-let test = { subdirs: [{ directory_name: "test", staged: false, files: [{ filename: "testfile", staged: false }] }] }
+let test = { subdirs: [{ directory_name: "test", staged: false, files: [{ filename: "testfile", staged: false }] }, { directory_name: "orang", staged: false, files: [{ filename: "testfile", staged: false }] }] }
 
 export default function RepoVisualization({
   repoState,

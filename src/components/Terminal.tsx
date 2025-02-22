@@ -1,53 +1,102 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef } from "react";
 
-interface TerminalProps {
-  onCommand: (command: string) => void
+interface File {
+  filename: string;
+  filetype: string;
+  staged: boolean;
+  files?: File[];
 }
 
-export default function Terminal({ onCommand }: TerminalProps) {
-  const [input, setInput] = useState("")
-  const [history, setHistory] = useState<string[]>([])
-  const terminalRef = useRef<HTMLDivElement>(null)
+interface RepoState {
+  branches: string[];
+  currentBranch: string;
+  commits: {
+    id: string;
+    message: string;
+    branch: string;
+    pushed: boolean;
+  }[];
+  filetrees: {
+    branch: string;
+    files: File[];
+  }[];
+}
 
-  const validateCommand = (input: string): boolean => {
-    const [cmd, ...args] = input.split(" ")
+interface TerminalProps {
+  onCommand: (command: string) => void;
+  repoState: RepoState;
+}
+
+export default function Terminal({ onCommand, repoState }: TerminalProps) {
+  const [input, setInput] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const terminalRef = useRef<HTMLDivElement>(null);
+
+  const validateCommand = (input: string): boolean | string => {
+    const [cmd, ...args] = input.split(" ");
     if (cmd != "git" || args.length == 0) {
-      return false
+      return `${input} is not a valid git command.`;
     }
 
-    if ((args[0] == "clone" && args[1]) ||
+    if (args[0] == "init" && repoState.branches.length != 0) {
+      return "Invalid command. Git repository already exists.";
+    }
+
+    if (args[0] == "checkout" && !repoState.branches.includes(args[1])) {
+      return `Invalid command. Branch ${args[1]} does not exist.`;
+    }
+
+    if (
+      args[0] == "push" &&
+      !repoState.commits.find((commit) => commit.pushed == false)
+    ) {
+      return "No commits to push...";
+    }
+
+    if (
+      (args[0] == "clone" && args[1]) ||
       (args[0] == "checkout" && args[1]) ||
       (args[0] == "add" && args[1]) ||
-      (["branch", "pull", "merge", "push", "log", "commit", "status", "init"].includes(args[0]))) {
-      return true
+      [
+        "branch",
+        "pull",
+        "merge",
+        "push",
+        "log",
+        "commit",
+        "status",
+        "init",
+      ].includes(args[0])
+    ) {
+      return true;
     }
 
-    return false
-  }
+    return false;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (input.trim()) {
-      const valid = validateCommand(input.trim())
+      const valid = validateCommand(input.trim());
       if (valid) {
-        onCommand(input.trim())
-        setHistory((prev) => [...prev, `$ ${input}`])
+        onCommand(input.trim());
+        setHistory((prev) => [...prev, `$ ${input}`]);
       } else {
-        setHistory((prev) => [...prev, `$ ${input} is not a git command.`])
+        setHistory((prev) => [...prev, `$ ${input} is not a git command.`]);
       }
-      setInput("")
+      setInput("");
     }
-  }
+  };
 
   useEffect(() => {
     if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [])
+  }, []);
 
   return (
     <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 font-mono text-gray-300 shadow-lg">
@@ -59,7 +108,10 @@ export default function Terminal({ onCommand }: TerminalProps) {
         </div>
         <div className="text-xs text-gray-500">Git Terminal</div>
       </div>
-      <div ref={terminalRef} className="h-64 overflow-auto mb-4 custom-scrollbar">
+      <div
+        ref={terminalRef}
+        className="h-64 overflow-auto mb-4 custom-scrollbar"
+      >
         {history.map((line, index) => (
           <div key={index} className="animate-fadeIn">
             {line}
@@ -79,6 +131,5 @@ export default function Terminal({ onCommand }: TerminalProps) {
         </div>
       </form>
     </div>
-  )
+  );
 }
-

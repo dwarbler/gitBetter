@@ -15,6 +15,7 @@ interface RepoState {
     id: string;
     message: string;
     branch: string;
+    pushed: boolean;
   }[];
   filetrees: {
     branch: string;
@@ -29,8 +30,6 @@ interface RepoVisualizationProps {
 export default function RepoVisualization({
   repoState,
 }: RepoVisualizationProps) {
-  const [hoveredBranch, setHoveredBranch] = useState<string | null>(null);
-
   return (
     <div className="bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-700">
       <h3 className="text-xl font-semibold mb-4 text-blue-300">

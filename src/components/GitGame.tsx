@@ -19,6 +19,7 @@ interface RepoState {
     message: string;
     branch: string;
     pushed: boolean;
+    logged: boolean;
   }[];
   filetrees: {
     branch: string;
@@ -77,6 +78,18 @@ export default function GitGame() {
               setChallenge((prev) => ({ ...prev, completed: true }));
             }
           }
+        } else if (args[0] == "log") {
+          setRepoState((prev) => ({
+            ...prev,
+            commits: [
+              ...prev.commits.filter(
+                (commit) => commit.branch != prev.currentBranch
+              ),
+              ...prev.commits
+                .filter((commit) => commit.branch == prev.currentBranch)
+                .map((commit) => ({ ...commit, logged: true })),
+            ],
+          }));
         }
         // Add more Git command implementations here
         break;

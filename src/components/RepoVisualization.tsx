@@ -1,4 +1,3 @@
-import { useState } from "react";
 import GitDropdown from "./Dropdown";
 
 interface File {
@@ -16,6 +15,7 @@ interface RepoState {
     message: string;
     branch: string;
     pushed: boolean;
+    logged: boolean;
   }[];
   filetrees: {
     branch: string;
@@ -43,13 +43,19 @@ export default function RepoVisualization({
       <div>
         <h4 className="font-semibold text-gray-300 mb-2">Commit Log:</h4>
         <ul className="space-y-2">
-          {repoState.commits.map((commit) => (
-            <li key={commit.id} className="animate-fadeIn text-sm">
-              <span className="text-yellow-400">{commit.id.slice(0, 7)}</span> -{" "}
-              <span className="text-green-400">{commit.message}</span>{" "}
-              <span className="text-blue-300">({commit.branch})</span>
-            </li>
-          ))}
+          {repoState.commits
+            .filter(
+              (commit) =>
+                commit.logged == true &&
+                commit.branch == repoState.currentBranch
+            )
+            .map((commit) => (
+              <li key={commit.id} className="animate-fadeIn text-sm">
+                <span className="text-yellow-400">{commit.id.slice(0, 7)}</span>{" "}
+                - <span className="text-green-400">{commit.message}</span>{" "}
+                <span className="text-blue-300">({commit.branch})</span>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

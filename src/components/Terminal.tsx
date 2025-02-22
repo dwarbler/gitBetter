@@ -19,6 +19,7 @@ interface RepoState {
     message: string;
     branch: string;
     pushed: boolean;
+    logged: boolean;
   }[];
   filetrees: {
     branch: string;

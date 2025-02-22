@@ -29,7 +29,7 @@ export default function RepoVisualization({
       </h3>
 
       <div className="mb-6">
-        <GitDropdown filetree={test} />
+        <GitDropdown filetree={test} repoState={repoState} />
       </div>
 
       <div>

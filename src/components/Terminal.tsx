@@ -13,11 +13,32 @@ export default function Terminal({ onCommand }: TerminalProps) {
   const [history, setHistory] = useState<string[]>([])
   const terminalRef = useRef<HTMLDivElement>(null)
 
+  const validateCommand = (input: string): boolean => {
+    const [cmd, ...args] = input.split(" ")
+    if (cmd != "git" || args.length == 0) {
+      return false
+    }
+
+    if ((args[0] == "clone" && args[1]) ||
+      (args[0] == "checkout" && args[1]) ||
+      (args[0] == "add" && args[1]) ||
+      (["branch", "pull", "merge", "push", "log", "commit", "status"].includes(args[0]))) {
+      return true
+    }
+
+    return false
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (input.trim()) {
-      onCommand(input.trim())
-      setHistory((prev) => [...prev, `$ ${input}`])
+      const valid = validateCommand(input.trim())
+      if (valid) {
+        onCommand(input.trim())
+        setHistory((prev) => [...prev, `$ ${input}`])
+      } else {
+        setHistory((prev) => [...prev, `$ ${input} is not a git command.`])
+      }
       setInput("")
     }
   }

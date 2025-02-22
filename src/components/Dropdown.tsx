@@ -10,6 +10,16 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "./ui/button";
 
+interface RepoState {
+  branches: string[];
+  currentBranch: string;
+  commits: {
+    id: string;
+    message: string;
+    branch: string;
+  }[];
+}
+
 interface RootDir {
   subdirs: {
     directory_name: string,
@@ -21,11 +31,12 @@ interface RootDir {
   }[],
 }
 
-interface FileTree {
+interface Repo {
   filetree: RootDir,
+  repoState: RepoState
 }
 
-export default function GitDropdown({ filetree }: FileTree) {
+export default function GitDropdown({ filetree, repoState }: Repo) {
   return (
     <>
       {

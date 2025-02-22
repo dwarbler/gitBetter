@@ -90,6 +90,44 @@ export default function GitGame() {
                 .map((commit) => ({ ...commit, logged: true })),
             ],
           }));
+        } else if (
+          args[0] == "clone" &&
+          args[1] == "git@github.com/gitBetterTester"
+        ) {
+          setRepoState({
+            branches: ["main"],
+            currentBranch: "main",
+            commits: [],
+            filetrees: [
+              {
+                branch: "main",
+                files: [
+                  {
+                    filename: ".git",
+                    filetype: "dir",
+                    staged: false,
+                  },
+                  {
+                    filename: "src",
+                    filetype: "dir",
+                    staged: false,
+                    files: [
+                      {
+                        filename: "app.tsx",
+                        filetype: "file",
+                        staged: false,
+                      },
+                      {
+                        filename: "globals.css",
+                        filetype: "file",
+                        staged: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          });
         }
         // Add more Git command implementations here
         break;

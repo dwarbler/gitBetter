@@ -74,7 +74,10 @@ export default function GitDropdown({ repoState }: DropdownProps) {
     }
 
     return (
-      <div className="flex text-md items-center justify-start space-x-4 px-4">
+      <div
+        className="flex text-md items-center justify-start space-x-4 px-4"
+        key={file.filename}
+      >
         <span>{"\t"}</span>
         {<File />}
         <span>{file.filename}</span>

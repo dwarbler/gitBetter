@@ -58,6 +58,35 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
       return ">> No commits to push... <<";
     }
 
+    if (args[0] == "add") {
+      if (args[1] == ".") {
+        return `$ ${input}`;
+      }
+
+      let path = args[1].split("/");
+
+      if (path[0] == ".") {
+        path = path.slice(1);
+      }
+
+      let curr = repoState.filetrees
+        .find((filetree) => filetree.branch == repoState.currentBranch)
+        ?.files.find((file) => file.filename == path[0]);
+
+      if (!curr) {
+        return ">> Invalid file path. <<";
+      }
+
+      for (const file of path.slice(1)) {
+        if (!curr) {
+          return ">> Invalid file path. <<";
+        }
+        curr = curr?.files?.find((f) => f.filename == file);
+      }
+
+      return curr ? `$ ${input}` : ">> Invalid file path. <<";
+    }
+
     if (
       (args[0] == "clone" && args[1]) ||
       (args[0] == "checkout" && args[1]) ||

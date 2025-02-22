@@ -80,7 +80,9 @@ export default function GitDropdown({ repoState }: DropdownProps) {
       >
         <span>{"\t"}</span>
         {<File />}
-        <span>{file.filename}</span>
+        <span className={`${file.staged ? "" : "text-yellow-300"}`}>
+          {file.filename}
+        </span>
       </div>
     );
   };

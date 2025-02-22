@@ -40,6 +40,15 @@ export default function GitGame() {
     completed: false,
   });
 
+  const recurseTree = (fn: (file: File) => void, files: File[]) => {
+    for (const file of files) {
+      fn(file);
+      if (file.files) {
+        recurseTree(fn, file.files);
+      }
+    }
+  };
+
   const handleCommand = (command: string) => {
     // Parse and execute Git command
     const [cmd, ...args] = command.split(" ");
@@ -64,7 +73,7 @@ export default function GitGame() {
               },
             ],
           });
-        } else if (repoState && args[0] === "branch" && args[1]) {
+        } else if (repoState && args[0] === "branch") {
           const newBranch = args[1];
           if (!repoState.branches.includes(newBranch)) {
             setRepoState((prev) => ({
@@ -128,6 +137,44 @@ export default function GitGame() {
               },
             ],
           });
+        } else if (args[0] == "add") {
+          const path = args[1].split("/");
+          // tree is modified inside of the recursive function
+          // however, eslint complains if it's not this way
+          // eslint-disable-next-line prefer-const
+          let tree = repoState.filetrees.find(
+            (filetree) => filetree.branch == repoState.currentBranch
+          );
+          if (path[0] == "." && path.length == 1) {
+            if (tree?.files) {
+              recurseTree((file: File) => {
+                file.staged = true;
+              }, tree?.files);
+            }
+          } else {
+            let curr = tree?.files.find((file) => file.filename == path[0]);
+
+            for (const file of path.slice(1)) {
+              curr = curr?.files?.find((f) => f.filename == file);
+            }
+
+            if (curr) {
+              curr.staged = true;
+            }
+          }
+
+          if (tree) {
+            setRepoState((prev) => ({
+              ...prev,
+              filetrees: [
+                ...prev.filetrees.filter(
+                  (filetree) => filetree.branch != repoState.currentBranch
+                ),
+                tree,
+              ],
+            }));
+          }
+          console.log(repoState);
         }
         // Add more Git command implementations here
         break;

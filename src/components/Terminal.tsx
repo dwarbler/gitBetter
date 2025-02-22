@@ -40,22 +40,22 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
   const validateCommand = (input: string): string => {
     const [cmd, ...args] = input.split(" ");
     if (cmd != "git" || args.length == 0) {
-      return `${input} is not a valid git command.`;
+      return `>> ${input} is not a valid git command. <<`;
     }
 
     if (args[0] == "init" && repoState.branches.length != 0) {
-      return "Invalid command. Git repository already exists.";
+      return ">> Invalid command. Git repository already exists. <<";
     }
 
     if (args[0] == "checkout" && !repoState.branches.includes(args[1])) {
-      return `Invalid command. Branch ${args[1]} does not exist.`;
+      return `>> Invalid command. Branch ${args[1]} does not exist. <<`;
     }
 
     if (
       args[0] == "push" &&
       !repoState.commits.find((commit) => commit.pushed == false)
     ) {
-      return "No commits to push...";
+      return ">> No commits to push... <<";
     }
 
     if (
@@ -73,7 +73,7 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
         "init",
       ].includes(args[0])
     ) {
-      return input;
+      return `$ ${input}`;
     }
 
     return `${input} is not a valid git command.`;
@@ -83,7 +83,7 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
     e.preventDefault();
     if (input.trim()) {
       const message = validateCommand(input.trim());
-      if (message == input.trim()) {
+      if (message == `$ ${input.trim()}`) {
         onCommand(input.trim());
       }
       setHistory((prev) => [...prev, message]);

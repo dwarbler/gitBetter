@@ -5,5 +5,54 @@
         "error_count": 12,
         "level_xp": 100,
         "completed": false
+    },
+    "level_2": {
+        "level_num": 2,
+        "challenge": "Your boss wants you to clone the company repo, not your own. Clone it from git@yourCompany.com/gitBetter, and do it every time!",
+        "error_count": 10,
+        "level_xp": 200,
+        "completed": false
+    },
+    "level_3": {
+        "level_num": 3,
+        "challenge": "Now you made some changes, you can go ahead and add them all to the staging area at once!",
+        "error_count": 8,
+        "level_xp": 300,
+        "completed": false
+    },
+    "level_4": {
+        "level_num": 4,
+        "challenge": "Your boss just sent you an angry email because you added all of your changes to the staging area at once. Add each file individually!",
+        "error_count": 6,
+        "level_xp": 400,
+        "completed": false
+    },
+    "level_5": {
+        "level_num": 5,
+        "challenge": "Now you have to commit the changes. Add each file individually and make a commit with git commit -m 'your message' for each file! And check that they look good with git log!",
+        "error_count": 4,
+        "level_xp": 500,
+        "completed": false
+    },
+    "level_6": {
+        "level_num": 6,
+        "challenge": "Boss: Why haven't you pushed any of your code to the repo???????????",
+        "error_count": 2,
+        "level_xp": 600,
+        "completed": false
+    },
+    "level_7": {
+        "level_num": 7,
+        "challenge": "Your boss wants three separate branches. Make them!!!!!!",
+        "error_count": 1,
+        "level_xp": 700,
+        "completed": false
+    },
+    "level_8": {
+        "level_num": 8,
+        "challenge": "This is it! Make the branches, commit the files, and push it all!",
+        "error_count": 0,
+        "level_xp": 800,
+        "completed": false
     }
 }

@@ -1,0 +1,17 @@
+{
+    "branches": ["main"],
+    "currentBranch": "main",
+    "commits": [],
+    "filetrees": [
+      {
+        "branch": "main",
+        "files": [
+          {
+            "filename": ".git",
+            "filetype": "dir",
+            "staged": false
+          }
+        ]
+      }
+    ]
+  }

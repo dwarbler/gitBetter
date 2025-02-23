@@ -8,8 +8,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
+import levels from "@/app/states/levels.json";
 
 interface LevelProps {
   level_num: number;
@@ -36,6 +41,12 @@ export default function Header({
 }: HeaderProps) {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isPaused, setIsPaused] = useState(!isRunning);
+  const [levelName, setLevelName] = useState("level_1");
+
+  const changeLevel = (level_name: string) => {
+    setLevel(levels[level_name as keyof typeof levels]);
+    setLevelName(level_name);
+  };
 
   useEffect(() => {
     if (isPaused) return;
@@ -63,10 +74,18 @@ export default function Header({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button size="icon">
-              <MenuIcon className="h-6 w-6" />
+              <MenuIcon className="h-12 w-12" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white">
+            <DropdownMenuLabel>Level</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={levelName}
+              onValueChange={changeLevel}
+            >
+              <DropdownMenuRadioItem value="level_1">1</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Leaderboard</DropdownMenuItem>

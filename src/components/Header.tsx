@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -86,10 +85,6 @@ export default function Header({
             >
               <DropdownMenuRadioItem value="level_1">1</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Leaderboard</DropdownMenuItem>
-            <DropdownMenuItem>Help</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <h1 className="text-4xl font-bold text-blue-400">GitBetter</h1>
@@ -114,7 +109,10 @@ export default function Header({
           </div>
           <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
             <div
-              className={`w-3/4 h-full bg-gradient-to-r from-yellow-400 to-yellow-600`}
+              className="h-full bg-gradient-to-r from-yellow-400 to-yellow-600"
+              style={{
+                width: `${Math.floor((timeLeft / initialTime) * 100)}%`,
+              }}
             ></div>
           </div>
         </div>

@@ -6,6 +6,8 @@ import RepoVisualization from "./RepoVisualization";
 import Header from "./Header";
 
 import initState from "@/app/states/init.json";
+import levels from "@/app/states/levels.json";
+import solutions from "@/app/states/solutions.json";
 
 interface LevelProps {
   level_num: number;
@@ -62,18 +64,53 @@ export default function GitGame() {
     filetrees: [],
   });
 
-  const [level, setLevel] = useState<LevelProps>({
-    level_num: 1,
-    challenge: "Create a new branch called feature",
-    error_count: 0,
-    level_xp: 100,
-    completed: false,
-  });
+  const [level, setLevel] = useState<LevelProps>(levels["level_1"]);
+
+  const [commands, setCommands] = useState<string[]>([]);
 
   const handleCommand = (command: string) => {
     // Parse and execute Git command
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_cmd, ...args] = command.split(" ");
+    setCommands((prev) => [...prev, args[0]]);
+
+    const curr_commands = [...commands, args[0]];
+
+    let errors = level.error_count;
+    let comp = true;
+
+    for (const cmd of solutions[
+      `level_${level.level_num}` as keyof typeof solutions
+    ]) {
+      if (!cmd || !cmd[1]) {
+        continue;
+      }
+      if (
+        (cmd[1] as number) >
+        curr_commands.filter((command) => command == cmd[0]).length
+      ) {
+        comp = false;
+      }
+
+      errors += Math.min(
+        0,
+        (cmd[1] as number) -
+          commands.filter((command) => command == cmd[0]).length
+      );
+
+      if (errors < 0) {
+        setRepoState({
+          branches: [],
+          currentBranch: "Challenge Failed!",
+          commits: [],
+          filetrees: [],
+        });
+      }
+    }
+
+    if (comp) {
+      setLevel((prev) => ({ ...prev, completed: true }));
+    }
 
     switch (args[0]) {
       case "init":
@@ -191,7 +228,7 @@ export default function GitGame() {
   return (
     <>
       <Header
-        initialTime={300}
+        initialTime={30 + 10 * level.level_num}
         onTimeUp={() => {
           console.log("Time's up!");
         }}

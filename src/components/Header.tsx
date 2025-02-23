@@ -57,12 +57,12 @@ export default function Header({
           onTimeUp?.();
           return 0;
         }
-        return prevTime - 1;
+        return !level.completed ? prevTime - 1 : prevTime;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isPaused, onTimeUp]);
+  }, [isPaused, onTimeUp, level.completed]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;

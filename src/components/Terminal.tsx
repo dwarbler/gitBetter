@@ -95,16 +95,9 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
       (args[0] == "clone" && args[1]) ||
       (args[0] == "checkout" && args[1]) ||
       (args[0] == "add" && args[1]) ||
-      [
-        "branch",
-        "pull",
-        "merge",
-        "push",
-        "log",
-        "commit",
-        "status",
-        "init",
-      ].includes(args[0])
+      ["branch", "pull", "merge", "push", "log", "commit", "init"].includes(
+        args[0]
+      )
     ) {
       return `$ ${input}`;
     }

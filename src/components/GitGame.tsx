@@ -66,6 +66,7 @@ export default function GitGame() {
     switch (args[0]) {
       case "init":
         setRepoState(initState);
+        break;
 
       case "branch":
         const newBranch = args[1];
@@ -86,12 +87,14 @@ export default function GitGame() {
             ],
           }));
         }
+        break;
 
       case "checkout":
         setRepoState((prev) => ({
           ...prev,
           currentBranch: args[1],
         }));
+        break;
 
       case "log":
         setRepoState((prev) => ({
@@ -105,11 +108,13 @@ export default function GitGame() {
               .map((commit) => ({ ...commit, logged: true })),
           ],
         }));
+        break;
 
       case "clone":
         import(
           `@/app/states/${args[1].split("/")[args[1].split("/").length - 1]}`
         ).then((res) => setRepoState(res.default));
+        break;
 
       case "add":
         const path = args[1].split("/");
@@ -148,6 +153,7 @@ export default function GitGame() {
             ],
           }));
         }
+        break;
 
       case "commit":
         setRepoState((prev) => ({
@@ -163,6 +169,10 @@ export default function GitGame() {
             },
           ],
         }));
+        break;
+
+      default:
+        console.log("Unknown command");
     }
   };
 

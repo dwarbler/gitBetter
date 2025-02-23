@@ -115,12 +115,17 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      const message = validateCommand(input.trim());
-      if (message == `$ ${input.trim()}`) {
-        onCommand(input.trim());
+      if (input.trim() == "clear") {
+        setHistory([]);
+        setInput("");
+      } else {
+        const message = validateCommand(input.trim());
+        if (message == `$ ${input.trim()}`) {
+          onCommand(input.trim());
+        }
+        setHistory((prev) => [...prev, message]);
+        setInput("");
       }
-      setHistory((prev) => [...prev, message]);
-      setInput("");
     }
   };
 

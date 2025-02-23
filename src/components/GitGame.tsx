@@ -191,6 +191,11 @@ export default function GitGame() {
               },
             ],
           }));
+        } else if (args[0] == "checkout") {
+          setRepoState((prev) => ({
+            ...prev,
+            currentBranch: args[1],
+          }));
         }
         // Add more Git command implementations here
         break;

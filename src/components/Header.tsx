@@ -15,6 +15,29 @@ import {
 import { MenuIcon } from "lucide-react";
 import levels from "@/app/states/levels.json";
 
+interface File {
+  filename: string;
+  filetype: string;
+  staged: boolean;
+  files?: File[];
+}
+
+interface RepoState {
+  branches: string[];
+  currentBranch: string;
+  commits: {
+    id: string;
+    message: string;
+    branch: string;
+    pushed: boolean;
+    logged: boolean;
+  }[];
+  filetrees: {
+    branch: string;
+    files: File[];
+  }[];
+}
+
 interface LevelProps {
   level_num: number;
   challenge: string;
@@ -29,6 +52,8 @@ interface HeaderProps {
   isRunning?: boolean;
   level: LevelProps;
   setLevel: Dispatch<SetStateAction<LevelProps>>;
+  setRepo: Dispatch<SetStateAction<RepoState>>;
+  setCommands: Dispatch<SetStateAction<string[]>>;
 }
 
 export default function Header({
@@ -37,6 +62,8 @@ export default function Header({
   isRunning = true,
   level,
   setLevel,
+  setRepo,
+  setCommands,
 }: HeaderProps) {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isPaused, setIsPaused] = useState(!isRunning);
@@ -45,6 +72,14 @@ export default function Header({
   const changeLevel = (level_name: string) => {
     setLevel(levels[level_name as keyof typeof levels]);
     setLevelName(level_name);
+    setTimeLeft(initialTime);
+    setRepo({
+      branches: [],
+      currentBranch: "",
+      commits: [],
+      filetrees: [],
+    });
+    setCommands([]);
   };
 
   useEffect(() => {
@@ -84,6 +119,13 @@ export default function Header({
               onValueChange={changeLevel}
             >
               <DropdownMenuRadioItem value="level_1">1</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_2">2</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_3">3</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_4">4</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_5">5</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_6">6</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_7">7</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="level_8">8</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>

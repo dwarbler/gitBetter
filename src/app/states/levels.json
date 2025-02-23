@@ -50,7 +50,7 @@
     },
     "level_8": {
         "level_num": 8,
-        "challenge": "This is it! Make the branches, commit the files, and push it all!",
+        "challenge": "This is it! Make the branches, commit the files, and push it all! And don't do it sloppily!",
         "error_count": 0,
         "level_xp": 800,
         "completed": false

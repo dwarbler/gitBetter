@@ -41,7 +41,7 @@
 ],
 "level_5": [
         ["init", 0],
-        ["commit", 3],
+        ["commit", 1],
         ["push", 0],
         ["add", 3],
         ["log", -1],

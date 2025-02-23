@@ -228,12 +228,14 @@ export default function GitGame() {
   return (
     <>
       <Header
-        initialTime={30 + 10 * level.level_num}
+        initialTime={45}
         onTimeUp={() => {
           console.log("Time's up!");
         }}
         level={level}
         setLevel={setLevel}
+        setRepo={setRepoState}
+        setCommands={setCommands}
       />
       <div className="w-full max-w-6xl bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
         <div className="mb-6">

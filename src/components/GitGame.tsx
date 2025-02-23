@@ -3,8 +3,17 @@
 import { useState } from "react";
 import Terminal from "./Terminal";
 import RepoVisualization from "./RepoVisualization";
+import Header from "./Header";
 
 import initState from "@/app/states/init.json";
+
+interface LevelProps {
+  level_num: number;
+  challenge: string;
+  error_count: number;
+  level_xp: number;
+  completed: boolean;
+}
 
 interface File {
   filename: string;
@@ -53,8 +62,11 @@ export default function GitGame() {
     filetrees: [],
   });
 
-  const [challenge, setChallenge] = useState({
-    description: 'Create a new branch called "feature"',
+  const [level, setLevel] = useState<LevelProps>({
+    level_num: 1,
+    challenge: "Create a new branch called feature",
+    error_count: 0,
+    level_xp: 100,
     completed: false,
   });
 
@@ -177,27 +189,37 @@ export default function GitGame() {
   };
 
   return (
-    <div className="w-full max-w-6xl bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2 text-blue-300">
-          Current Mission:
-        </h2>
-        <p
-          className={`text-lg ${
-            challenge.completed ? "text-green-400" : "text-yellow-300"
-          }`}
-        >
-          {challenge.description}
-        </p>
-      </div>
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1">
-          <RepoVisualization repoState={repoState} />
+    <>
+      <Header
+        initialTime={300}
+        onTimeUp={() => {
+          console.log("Time's up!");
+        }}
+        level={level}
+        setLevel={setLevel}
+      />
+      <div className="w-full max-w-6xl bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold mb-2 text-blue-300">
+            Current Mission:
+          </h2>
+          <p
+            className={`text-lg ${
+              level.completed ? "text-green-400" : "text-yellow-300"
+            }`}
+          >
+            {level.challenge}
+          </p>
         </div>
-        <div className="flex-1">
-          <Terminal onCommand={handleCommand} repoState={repoState} />
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex-1">
+            <RepoVisualization repoState={repoState} />
+          </div>
+          <div className="flex-1">
+            <Terminal onCommand={handleCommand} repoState={repoState} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

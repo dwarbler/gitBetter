@@ -1,7 +1,7 @@
 // components/Timer.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ interface LevelProps {
   challenge: string;
   error_count: number;
   level_xp: number;
+  completed: boolean;
 }
 
 interface HeaderProps {
@@ -23,6 +24,7 @@ interface HeaderProps {
   onTimeUp?: () => void;
   isRunning?: boolean;
   level: LevelProps;
+  setLevel: Dispatch<SetStateAction<LevelProps>>;
 }
 
 export default function Header({
@@ -30,6 +32,7 @@ export default function Header({
   onTimeUp,
   isRunning = true,
   level,
+  setLevel,
 }: HeaderProps) {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isPaused, setIsPaused] = useState(!isRunning);

@@ -32,6 +32,21 @@ interface TerminalProps {
   repoState: RepoState;
 }
 
+const stagedFiles = (files: File[]): boolean => {
+  for (const file of files) {
+    if (file.staged) {
+      return true;
+    }
+    if (file.files) {
+      const res = stagedFiles(file.files);
+      if (res) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
 export default function Terminal({ onCommand, repoState }: TerminalProps) {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -89,6 +104,16 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
 
     if (args[0] == "commit" && (!args[1] || args[1] != "-m" || !args[2])) {
       return '>> Invalid commit. Must git commit -m "commit message" <<';
+    }
+
+    if (args[0] == "commit") {
+      const tree = repoState.filetrees.find(
+        (filetree) => filetree.branch == repoState.currentBranch
+      );
+
+      if (!tree || !stagedFiles(tree?.files)) {
+        return `>> No staged files on branch ${repoState.currentBranch}`;
+      }
     }
 
     if (

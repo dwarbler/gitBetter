@@ -31,9 +31,7 @@ export default function Home() {
                 <DropdownMenuItem>Help</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <h1 className="text-4xl font-bold text-blue-400">
-              Git Practice: Command Master
-            </h1>
+            <h1 className="text-4xl font-bold text-blue-400">GitBetter</h1>
           </div>
 
           <div className="flex items-center gap-6">

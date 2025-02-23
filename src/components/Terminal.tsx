@@ -87,6 +87,10 @@ export default function Terminal({ onCommand, repoState }: TerminalProps) {
       return curr ? `$ ${input}` : ">> Invalid file path. <<";
     }
 
+    if (args[0] == "commit" && (!args[1] || args[1] != "-m" || !args[2])) {
+      return '>> Invalid commit. Must git commit -m "commit message" <<';
+    }
+
     if (
       (args[0] == "clone" && args[1]) ||
       (args[0] == "checkout" && args[1]) ||

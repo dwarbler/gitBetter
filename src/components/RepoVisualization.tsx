@@ -49,6 +49,7 @@ export default function RepoVisualization({
                 commit.logged == true &&
                 commit.branch == repoState.currentBranch
             )
+            .reverse()
             .map((commit) => (
               <li key={commit.id} className="animate-fadeIn text-sm">
                 <span className="text-yellow-400">{commit.id.slice(0, 7)}</span>{" "}

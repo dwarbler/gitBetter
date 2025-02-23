@@ -174,7 +174,23 @@ export default function GitGame() {
               ],
             }));
           }
-          console.log(repoState);
+        } else if (args[0] == "commit") {
+          setRepoState((prev) => ({
+            ...prev,
+            commits: [
+              ...prev.commits,
+              {
+                id: Math.random().toString(16).slice(2),
+                message: args
+                  .slice(2)
+                  .join(" ")
+                  .slice(1, args.slice(2).join(" ").length - 1),
+                branch: repoState.currentBranch,
+                pushed: false,
+                logged: false,
+              },
+            ],
+          }));
         }
         // Add more Git command implementations here
         break;
